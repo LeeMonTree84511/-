@@ -76,6 +76,8 @@ background:radial-gradient(60% 40% at 20% 85%,#0b5bb0 0,transparent 70%),radial-
 .ro{margin-top:16px;font-family:'Be Vietnam Pro',sans-serif;font-size:.95rem;line-height:1.7;opacity:.45}.ro.off{display:none}
 textarea{font:inherit;width:100%;padding:12px;border-radius:16px;color:var(--ink);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.28);resize:vertical}
 .pi{border-top:1px solid rgba(255,255,255,.12);padding-top:8px}.pt small{color:var(--mute)}
+.pic{font-size:6rem;line-height:1.2}
+.ptag{display:inline-block;margin:6px 0 12px;padding:6px 20px;border-radius:12px;background:#ef3b4a;color:#fff;font-weight:800;font-size:1.6rem}
 </style>
 </head>
 <body>
@@ -104,7 +106,8 @@ ${v&&D[v.n]&&D[v.n][v.i]?`<button class="glass big" onclick="V={n:${v.n},i:${v.i
 <button class="glass big" onclick="kana()">Bảng chữ cái</button>
 <button class="glass big" onclick="vocab()">Từ vựng</button>
 <button class="glass big" onclick="speak()">Luyện nói với đoạn văn</button>
-<button class="glass big" onclick="counter()">Luyện đếm số</button></div>
+<button class="glass big" onclick="counter()">Luyện đếm số</button>
+<button class="glass big" onclick="exam()">Luyện đề thi sắp tới</button></div>
 ${L.length?`<div class="glass panel prog"><h3>Tiến độ (lưu trên máy này)</h3>${L.map(x=>`<p>${x}</p>`).join('')}<div class="row"><button onclick="if(confirm('Xóa toàn bộ tiến độ?')){try{localStorage.removeItem('mita')}catch{}home()}">Xóa tiến độ</button></div></div>`:''}`)}
 
 /* ---------- 1. CHỮ CÁI ---------- */
@@ -354,6 +357,84 @@ function saveP(){const v=document.getElementById('px').value.trim(),ti=document.
 const parts=v.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
 upd(o=>{o.p=o.p||[];parts.forEach((t,i)=>o.p.push({t,n:ti?(parts.length>1?ti+' '+(i+1):ti):''}))});lib();msgP('Đã lưu '+parts.length+' đoạn vào kho.',1)}
 function delP(u){if(confirm('Xóa đoạn văn này?')){upd(o=>{(o.p||[]).splice(u,1)});lib()}}
+
+/* ---------- LUYỆN ĐỀ THI (bài 1 + 2) ---------- */
+const EP=["すみません。トイレは どこですか。あそこです。レジは そこです。エスカレーターは ここです。エレベーターは あちらです。これは カメラです。この カメラは 三万円{さんまんえん}です。それは パソコンです。その パソコンは 八万円{はちまんえん}です。あれは けいたいでんわです。あの けいたいでんわは 五万円{ごまんえん}です。この とけいは いくらですか。八千五百円{はっせんごひゃくえん}です。この くつは 九千円{きゅうせんえん}です。その かばんは 七千円{ななせんえん}です。その ペンは 百円{ひゃくえん}です。この けしゴムも 百円{ひゃくえん}です。これは ほんです。それは じしょです。あれは でんしじしょです。この ほんは 千二百円{せんにひゃくえん}です。",
+"ここは スーパーです。あそこは レストランです。スーパーで パンと たまごと こめを ください。この パンは 百五十円{ひゃくごじゅうえん}です。その たまごは 二百円{にひゃくえん}です。この こめは 三千円{さんぜんえん}です。あの さかなは 八百円{はっぴゃくえん}です。この ぶたにくは 六百円{ろっぴゃくえん}です。あの とりにくは 四百円{よんひゃくえん}です。やさいも ください。レストランで カレーを ひとつ ください。ハンバーグを ふたつと とんかつを ひとつ ください。これは 何{なん}の カレーですか。えびの カレーです。これは どこの ビールですか。ドイツの ビールです。コーヒーと ジュースと みずも ください。ごはんと スープも ください。",
+"はじめまして。私{わたし}は ミタです。ベトナム人{じん}です。学生{がくせい}です。二十{にじゅう}さいです。私{わたし}の しゅみは りょうりです。えいがと りょこうも しゅみです。ワンさんは ちゅうごくじんです。ワンさんも 学生{がくせい}です。ワンさんの しゅみは サッカーです。パクさんは かんこくじんです。せんせいです。パクさんの しゅみは おんがくと どくしょです。パクさんは かいしゃいんじゃ ありません。マリーさんは アメリカ人{じん}ですか。いいえ、アメリカ人{じん}じゃ ありません。イギリス人{じん}です。マリーさんは いしゃです。マリーさんの おくには どちらですか。イギリスです。マリーさんの たんじょうびは じゅうにがつ みっかです。よろしく おねがいします。"];
+const EITEMS=[['かばん','🎒'],['とけい','⌚'],['カメラ','📷'],['くつ','👟'],['ほん','📖'],['ペン','🖊️'],['Tシャツ','👕'],['りんご','🍎'],['バナナ','🍌'],['たまご','🥚'],['パン','🍞'],['ケーキ','🍰'],['さかな','🐟'],['コーヒー','☕'],['ビール','🍺'],['ごはん','🍚']];
+const COUNTRY=['ベトナム','にほん','アメリカ','イタリア','オーストラリア','かんこく','タイ','ちゅうごく','ロシア','ブラジル','イギリス'],
+HOBBY=['サッカー','テニス','すいえい','えいが','おんがく','りょこう','どくしょ','りょうり','スポーツ'],
+JOB=['がくせい','せんせい','きょうし','かいしゃいん','しゃいん','ぎんこういん','いしゃ','学生','会社員'];
+const has=(v,L)=>{const x=toH(strip(v));if(L.some(c=>x.includes(toH(strip(c)))))return true;
+if(/[a-z]/.test(x)){const r=nrm(x);return L.some(c=>r.includes(nrm(toRo(toH(c)).toLowerCase())))}return false};
+function kan(s){const d={一:1,二:2,三:3,四:4,五:5,六:6,七:7,八:8,九:9};let tot=0,cur=0,sec=0;
+for(const c of s){if(d[c])cur=d[c];else if(c=='十'){sec+=(cur||1)*10;cur=0}else if(c=='百'){sec+=(cur||1)*100;cur=0}else if(c=='千'){sec+=(cur||1)*1000;cur=0}else if(c=='万'){tot+=(sec+cur||1)*10000;sec=cur=0}}return tot+sec+cur}
+const nz=s=>toH(strip(s)).replace(/^(これは|それは|あれは)/,'').replace(/です$/,'');
+function ansOK(v,C){const x=nz(v);if(C.some(c=>x===toH(strip(c))))return true;
+if(/[a-z]/.test(x)){const r=nrm(x).replace(/^(korewa|sorewa|arewa)/,'').replace(/desu$/,'');return C.some(c=>r===nrm(toRo(toH(strip(c))).toLowerCase()))}return false}
+function priceOK(v,n){const m=v.replace(/,/g,'').match(/(\d+|[一二三四五六七八九十百千万]+)\s*円/);
+if(m)return(/\d/.test(m[1])?+m[1]:kan(m[1]))===n;return ansOK(v,reads(n).map(r=>r+'えん'))}
+function bdayOK(v){const a=v.match(/(\d+)\s*(?:月|がつ)\D*(\d+)/);if(a)return a[1]>=1&&a[1]<=12&&a[2]>=1&&a[2]<=31;
+const b=v.match(/([一二三四五六七八九十]+)月([一二三四五六七八九十]+)日/);if(b)return kan(b[1])>=1&&kan(b[1])<=12&&kan(b[2])>=1&&kan(b[2])<=31;
+return has(v,MONTHS.flat())&&has(v,DAYS)}
+const NQ=[{q:'おくには どちらですか。',vi:'Đất nước của bạn ở đâu?',chk:v=>has(v,COUNTRY),model:'ベトナムです。'},
+{q:'しゅみは なんですか。',vi:'Sở thích của bạn là gì?',chk:v=>has(v,HOBBY),model:'りょうりです。'},
+{q:'たんじょうびは いつですか。',vi:'Sinh nhật của bạn là khi nào?',chk:bdayOK,model:'ごがつ とおかです。'},
+{q:'おしごとは なんですか。',vi:'Nghề nghiệp của bạn là gì?',chk:v=>has(v,JOB),model:'がくせいです。'}];
+function mkQs(){const I=EITEMS,a=I[rnd(I.length)];let b;do{b=I[rnd(I.length)]}while(b===a);
+const P=[100,150,200,300,500,800,1000,1200,2500,3000,5000,8500,10000,30000],n=P[rnd(P.length)];
+return[{prep:5,...NQ[rnd(NQ.length)]},
+{prep:10,pic:a[1],q:'これは なんですか。',vi:'Đây là cái gì?',chk:v=>ansOK(v,[a[0]]),model:a[0]+'です。'},
+{prep:10,pic:b[1],tag:'¥'+n.toLocaleString('en-US'),q:`この ${b[0]}は いくらですか。`,vi:'Cái này bao nhiêu tiền?',chk:v=>priceOK(v,n),model:reads(n)[0]+'えんです。'}]}
+let X={};
+const sayP=t=>say(t.replace(/[\u4e00-\u9fff]+\{([^}]+)\}/g,'$1'));
+function exam(){show(`${back}<h2>Luyện đề thi sắp tới</h2>
+<div class="glass panel"><h3>Phần 1: Đọc đoạn văn</h3><p>Đoạn khoảng 100 đến 150 từ. Chuẩn bị 20 giây, sau đó đọc to trong tối đa 5 phút. Chỉ cần đọc, không cần hiểu nghĩa. Hết giờ mới có nút hiện romaji để tự kiểm tra.</p></div>
+<div class="glass panel"><h3>Phần 2: Trả lời 3 câu hỏi</h3><p>1 câu không tranh, 2 câu có tranh. Mỗi câu có 5 đến 10 giây chuẩn bị, rồi trả lời bằng giọng nói hoặc gõ phím.</p></div>
+<p class="sub">Từ vựng, kanji và ngữ pháp chỉ lấy trong bài 1 và bài 2.</p>
+<div class="row"><button class="on" onclick="ex1()">Bắt đầu Phần 1</button><button onclick="ex2()">Làm riêng Phần 2</button></div>`)}
+function ex1(same){if(!same||!X.p)X.p=EP[rnd(EP.length)];
+show(`<div class="row"><button onclick="exam()">← Đề thi</button></div><h2>Phần 1: Đọc đoạn văn</h2>
+<div class="glass txt jp">${rb(esc(X.p))}<div id="ro" class="ro off">${esc(roman(X.p))}</div></div>
+<div class="glass panel"><div class="sub" id="xs"></div><div class="clock" id="xc">00:00</div><div class="row" id="xb" style="justify-content:center"></div></div>`);xph('prep',20)}
+function xph(ph,sec){clearInterval(T.id);X.t0=Date.now();X.lim=sec;const s=document.getElementById('xs'),b=document.getElementById('xb');
+if(ph=='prep'){s.textContent='Chuẩn bị: hãy xem đoạn văn (20 giây)';b.innerHTML='<button onclick="xph(\'read\',300)">Bỏ qua chuẩn bị</button>';lock()}
+else{s.textContent='Đọc to đoạn văn (tối đa 5 phút)';b.innerHTML='<button class="on" onclick="xend(0)">Đọc xong</button>'}
+const tick=()=>{const e=(Date.now()-X.t0)/1000;if(e>=X.lim){if(ph=='prep')xph('read',300);else xend(1);return}document.getElementById('xc').textContent=mmss(Math.ceil(X.lim-e))};
+tick();T.id=setInterval(tick,250)}
+function xend(to){clearInterval(T.id);unlock();const e=Math.min((Date.now()-X.t0)/1000,300);
+document.getElementById('xs').textContent=(to?'Hết giờ! ':'')+'Thời gian đọc: '+mmss(e);document.getElementById('xc').textContent=mmss(e);
+document.getElementById('xb').innerHTML=`<button onclick="document.getElementById('ro').classList.toggle('off')">Hiện romaji</button><button onclick="sayP(X.p)">🔊 Nghe mẫu</button><button onclick="ex1(1)">Đọc lại</button><button class="on" onclick="ex2()">Sang Phần 2 →</button>`}
+function ex2(){X.qs=mkQs();X.qi=0;X.sc=0;X.rv=[];qStart()}
+function qStart(){const q=X.qs[X.qi];X.ans=false;
+show(`<div class="glass stage"><p class="sub">Phần 2: câu ${X.qi+1}/3 (${q.pic?'có tranh':'không tranh'})</p>
+${q.pic?`<div class="pic">${q.pic}</div>${q.tag?`<div class="ptag">${q.tag}</div>`:''}`:''}
+<p class="jp" style="font-size:clamp(1.4rem,5vw,2.2rem)">${q.q}</p><p class="sub">${q.vi}</p>
+<div class="sub" id="xs">Chuẩn bị...</div><div class="clock" id="xc"></div>
+<input id="xa" lang="ja" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Gõ câu trả lời (kana hoặc romaji)" disabled>
+<div class="row" style="justify-content:center"><button id="xm" onclick="micX()" disabled>🎤 Nói</button><button id="xo" onclick="subX()" disabled>Nộp</button><button onclick="say(X.qs[X.qi].q)">🔊 Nghe câu hỏi</button></div>
+<div class="fb" id="xf"></div></div>`);
+document.getElementById('xa').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing)subX()});
+say(q.q);X.t0=Date.now();clearInterval(T.id);
+const tick=()=>{const l=Math.ceil(q.prep-(Date.now()-X.t0)/1000);if(l<=0){clearInterval(T.id);xAns();return}document.getElementById('xc').textContent=l};tick();T.id=setInterval(tick,250)}
+function xAns(){['xa','xm','xo'].forEach(i=>document.getElementById(i).disabled=false);
+document.getElementById('xs').textContent='Hãy trả lời (nói hoặc gõ)';document.getElementById('xc').textContent='';document.getElementById('xa').focus()}
+function subX(){const v=document.getElementById('xa').value;if(X.ans||!v.trim())return;finX(v)}
+function finX(v,okv){if(X.ans)return;X.ans=true;const q=X.qs[X.qi],ok=okv!=null?okv:q.chk(v);if(ok)X.sc++;X.rv.push({q:q.q,v,ok,m:q.model});
+['xa','xm','xo'].forEach(i=>document.getElementById(i).disabled=true);const f=document.getElementById('xf');f.className='fb '+(ok?'good':'wrong');
+f.innerHTML=`${ok?'Đúng!':'Chưa đúng.'} Bạn trả lời: <span class="jp">${esc(v)}</span><br>Mẫu: <b class="jp">${q.model}</b>${q.pic?'':'<br><small>Câu về bản thân nên có nhiều đáp án đúng.</small>'}
+<div class="row" style="justify-content:center"><button class="on" onclick="X.qi++;X.qi<3?qStart():res2()">${X.qi<2?'Câu tiếp':'Xem kết quả'}</button></div>`}
+function micX(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition,f=document.getElementById('xf'),b=document.getElementById('xm');
+if(!SR){f.className='fb wrong';f.textContent='Trình duyệt này không hỗ trợ nhận giọng nói, hãy gõ đáp án.';return}
+const r=new SR(),q=X.qs[X.qi];r.lang='ja-JP';r.maxAlternatives=5;r.interimResults=false;b.textContent='🎤 Đang nghe...';
+r.onresult=e=>{const a=[...e.results[0]].map(x=>x.transcript);document.getElementById('xa').value=a[0];finX(a[0],a.some(x=>q.chk(x)))};
+r.onerror=e=>{f.className='fb wrong';f.textContent='Không nghe được ('+e.error+'). Hãy thử lại hoặc gõ đáp án.'};
+r.onend=()=>{b.textContent='🎤 Nói'};try{r.start()}catch{}}
+function res2(){upd(o=>{o.e=o.e||{n:0,best:0};o.e.n++;o.e.best=Math.max(o.e.best,X.sc)});
+show(`<div class="glass stage"><h2>Kết quả Phần 2</h2><div class="q" style="font-size:clamp(3rem,12vw,6rem)">${X.sc}/3</div>
+${X.rv.map(r=>`<p class="jp ${r.ok?'good':'wrong'}">${r.q}<br><small>Bạn: ${esc(r.v)}. Mẫu: ${r.m}</small></p>`).join('')}
+<div class="row" style="justify-content:center"><button class="on" onclick="ex2()">Làm đề khác</button><button onclick="ex1()">Phần 1</button><button onclick="home()">Menu</button></div></div>`)}
 
 /* ---------- TRANG ĐẦU ---------- */
 const VB={h:'0 0 200 110',w:'0 0 200 120',o:'0 0 160 160'},ID={h:'w1',w:'w2',o:'w3'};
