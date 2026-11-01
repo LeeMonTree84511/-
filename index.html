@@ -64,6 +64,8 @@ button{touch-action:manipulation}
 .hero{padding-top:max(28px,calc(env(safe-area-inset-top) + 16px));padding-left:max(clamp(18px,5vw,64px),env(safe-area-inset-left));padding-right:max(clamp(18px,5vw,64px),env(safe-area-inset-right));padding-bottom:max(48px,calc(env(safe-area-inset-bottom) + 32px))}
 @media(pointer:coarse){button{min-height:48px;padding:12px 22px}.say{min-height:44px;min-width:48px}.links button{padding:12px 16px}.kt div{padding:12px 0}input{font-size:1.6rem;padding:14px}.big{min-height:96px}}
 .prog p{margin:4px 0;color:var(--mute)}.prog b{color:var(--ink)}
+.dt{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}.dt div{padding:8px 10px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);text-align:center}.dt b{display:block;color:var(--mute);font-weight:600;font-size:.85rem}
+.ref p{margin:6px 0}
 </style>
 </head>
 <body>
@@ -84,13 +86,15 @@ const rb=s=>s.replace(/([\u4e00-\u9fff]+)\{([^}]+)\}/g,'<ruby>$1<rt>$2</rt></rub
 function home(){const o=load(),q=o.q,sp=o.s,v=o.v,L=[];
 if(q&&q.n)L.push(`Quiz chữ cái: <b>${q.ok}/${q.n}</b> đúng (${Math.round(q.ok*100/q.n)}%)`);
 const wk=Object.keys(q?q.w||{}:{});if(wk.length)L.push(`Chữ hay sai: <b class="jp">${wk.slice(0,8).join(' ')}</b>`);
+if(o.c&&o.c.n)L.push(`Luyện đếm số: <b>${o.c.ok}/${o.c.n}</b> đúng`);
 if(sp&&sp.n)L.push(`Luyện nói: <b>${sp.n}</b> lần, tổng <b>${mmss(sp.t)}</b>`);
 show(`<div class="row"><button onclick="landing()">← Trang đầu</button></div><h1 class="jp">日本語 N5</h1><p class="sub">Ôn thi theo đúng tài liệu bài 1 – 3</p>
 <div class="grid">
 ${v&&D[v.n]&&D[v.n][v.i]?`<button class="glass big" onclick="V={n:${v.n},i:${v.i}};lesson()">Tiếp tục: bài ${v.n}, ${D[v.n][v.i][0]}</button>`:''}
 <button class="glass big" onclick="kana()">Bảng chữ cái</button>
 <button class="glass big" onclick="vocab()">Từ vựng</button>
-<button class="glass big" onclick="speak()">Luyện nói với đoạn văn</button></div>
+<button class="glass big" onclick="speak()">Luyện nói với đoạn văn</button>
+<button class="glass big" onclick="counter()">Luyện đếm số</button></div>
 ${L.length?`<div class="glass panel prog"><h3>Tiến độ (lưu trên máy này)</h3>${L.map(x=>`<p>${x}</p>`).join('')}<div class="row"><button onclick="if(confirm('Xóa toàn bộ tiến độ?')){try{localStorage.removeItem('mita')}catch{}home()}">Xóa tiến độ</button></div></div>`:''}`)}
 
 /* ---------- 1. CHỮ CÁI ---------- */
@@ -215,6 +219,60 @@ else stop(false)}
 function stop(timeout){clearInterval(T.id);const e=(Date.now()-S.t0)/1000;S.run=false;unlock();upd(o=>{o.s=o.s||{n:0,t:0};o.s.n++;o.s.t+=Math.round(Math.min(e,S.limit||e))});
 document.getElementById('go').textContent='Bắt đầu';document.getElementById('clk').textContent=mmss(S.limit?S.limit-Math.min(e,S.limit):e);
 const r=document.getElementById('res');r.className='fb good';r.textContent=(timeout?'Hết giờ! ':'')+'Thời gian đọc: '+mmss(Math.min(e,S.limit||e))}
+/* ---------- 4. LUYỆN ĐẾM SỐ ---------- */
+const DAYS=["ついたち","ふつか","みっか","よっか","いつか","むいか","なのか","ようか","ここのか","とおか","じゅういちにち","じゅうににち","じゅうさんにち","じゅうよっか","じゅうごにち","じゅうろくにち","じゅうしちにち","じゅうはちにち","じゅうくにち","はつか","にじゅういちにち","にじゅうににち","にじゅうさんにち","にじゅうよっか","にじゅうごにち","にじゅうろくにち","にじゅうしちにち","にじゅうはちにち","にじゅうくにち","さんじゅうにち","さんじゅういちにち"];
+const MONTHS=[["いちがつ"],["にがつ"],["さんがつ"],["しがつ"],["ごがつ"],["ろくがつ"],["しちがつ","なながつ"],["はちがつ"],["くがつ"],["じゅうがつ"],["じゅういちがつ"],["じゅうにがつ"]];
+const rnd=n=>Math.random()*n|0;
+const dg=['','いち','に','さん','よん','ご','ろく','なな','はち','きゅう'];
+function low(n,o4,o7){let s='';const t=n/1000|0,h=n/100%10|0,te=n/10%10|0,u=n%10;
+if(t)s+=t==1?'せん':t==3?'さんぜん':t==8?'はっせん':dg[t]+'せん';
+if(h)s+=h==1?'ひゃく':h==3?'さんびゃく':h==6?'ろっぴゃく':h==8?'はっぴゃく':dg[h]+'ひゃく';
+if(te)s+=te==1?'じゅう':dg[te]+'じゅう';
+if(u)s+=u==4?o4:u==7?o7:dg[u];return s}
+function reads(n){if(n===0)return['ぜろ','れい'];const m=n/10000|0,r=n%10000,pre=m?low(m,'よん','なな')+'まん':'',set=new Set();
+for(const a of['よん','し'])for(const b of['なな','しち'])set.add(pre+(r?low(r,a,b):''));return[...set]}
+const H2R={};POOL.forEach(p=>H2R[p.h]=p.r);
+function toRo(h){let o='';for(let i=0;i<h.length;i++){const c=h[i];
+if(c==='っ'){o+=toRo(h.slice(i+1,i+3))[0];continue}
+const sm={'ゃ':'a','ゅ':'u','ょ':'o'}[h[i+1]];
+if(sm){const b=H2R[c].slice(0,-1);o+=(['sh','ch','j'].includes(b)?b:b+'y')+sm;i++}else o+=H2R[c]||c}return o}
+const nrm=r=>r.toLowerCase().replace(/[\s\-']/g,'').replace(/nn/g,'n').replace(/shi/g,'si').replace(/chi/g,'ti').replace(/tsu/g,'tu').replace(/fu/g,'hu').replace(/ji/g,'zi').replace(/sh(?=[aueo])/g,'sy').replace(/ch(?=[aueo])/g,'ty').replace(/j(?=[aueo])/g,'zy').replace(/([aiueo])\1/g,'$1');
+const same=(v,a)=>{v=v.trim().replace(/\s+/g,'');return /[a-z]/i.test(v)?nrm(v)===nrm(toRo(a)):v===a};
+function numGen(max){let n;if(max<=10)n=rnd(11);else if(Math.random()<.05)n=max;
+else{const d=1+rnd(String(max).length-1),lo=d==1?0:10**(d-1),hi=10**d-1;n=lo+rnd(hi-lo+1)}
+return{q:n.toLocaleString('en-US'),ans:reads(n)}}
+const dayGen=()=>{const i=rnd(31);return{q:'Ngày '+(i+1),ans:[DAYS[i]]}};
+const moGen=()=>{const i=rnd(12);return{q:'Tháng '+(i+1),ans:MONTHS[i]}};
+let N={max:10},Z={};
+function counter(){show(`<div class="row"><button onclick="home()">← Menu</button></div><h2>Luyện đếm số</h2>
+<div class="grid"><button class="glass big" onclick="days()">Ngày trong tháng</button><button class="glass big" onclick="nums()">Đếm số</button></div>`)}
+const cell=(n,r)=>`<div><b>${n}</b>${r}</div>`;
+function days(){show(`<div class="row"><button onclick="counter()">← Luyện đếm số</button></div><h2>Ngày trong tháng</h2>
+<div class="glass panel"><h3>Tháng</h3><div class="dt jp">${MONTHS.map((m,i)=>cell(i+1,m.join(' / '))).join('')}</div></div>
+<div class="glass panel"><h3>Ngày</h3><div class="dt jp">${DAYS.map((d,i)=>cell(i+1,d)).join('')}</div></div>
+<div class="row"><button class="on" onclick="zq('Quiz ngày trong tháng',dayGen,'days()')">Quiz ngày</button><button class="on" onclick="zq('Quiz tháng',moGen,'days()')">Quiz tháng</button></div>`)}
+function nums(){show(`<div class="row"><button onclick="counter()">← Luyện đếm số</button></div><h2>Đếm số</h2><p class="sub">Chọn khoảng số, xem lại cách đọc rồi bắt đầu quiz.</p>
+<div class="row">${[10,100,1000,10000,100000,1000000].map(m=>`<button class="rg ${m==N.max?'on':''}" onclick="N.max=${m};document.querySelectorAll('.rg').forEach(b=>b.classList.toggle('on',b===this))">0 – ${m.toLocaleString('en-US')}</button>`).join('')}</div>
+<div class="glass panel jp ref"><p>0 ぜろ／れい　1 いち　2 に　3 さん　4 よん／し　5 ご　6 ろく　7 なな／しち　8 はち　9 きゅう　10 じゅう</p>
+<p>Đọc biến âm: 300 さんびゃく　600 ろっぴゃく　800 はっぴゃく　3,000 さんぜん　8,000 はっせん</p>
+<p>1,000 chỉ đọc せん (không có いち), nhưng 10,000 phải đọc いちまん.</p></div>
+<div class="row"><button class="on" onclick="zq('Quiz đếm số 0 – '+N.max.toLocaleString('en-US'),()=>numGen(N.max),'nums()')">Bắt đầu Quiz</button></div>`)}
+function zq(title,gen,back){Z={title,gen,back,cur:null,ok:0,n:0,wait:false};
+show(`<div class="row"><button onclick="${back}">← Chọn lại</button></div><div class="glass stage"><p class="sub">${title}</p>
+<div class="q jp" id="zc" style="font-size:clamp(2.6rem,12vw,6.5rem)"></div>
+<input id="za" lang="ja" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Gõ cách đọc: hiragana hoặc romaji">
+<div class="row" style="justify-content:center"><button onclick="subZ()">Kiểm tra</button><button onclick="revZ()">Xem đáp án</button></div>
+<div class="fb" id="zf"></div><p class="sub" id="zs"></p></div>`);
+document.getElementById('za').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing)subZ()});nextZ()}
+function nextZ(){Z.cur=Z.gen();Z.wait=false;document.getElementById('zc').textContent=Z.cur.q;
+const i=document.getElementById('za');i.value='';i.focus();document.getElementById('zf').textContent='';
+document.getElementById('zs').textContent=`Đúng ${Z.ok}/${Z.n}`}
+function recZ(g){Z.n++;if(g)Z.ok++;upd(o=>{o.c=o.c||{n:0,ok:0};o.c.n++;if(g)o.c.ok++});document.getElementById('zs').textContent=`Đúng ${Z.ok}/${Z.n}`}
+function revZ(){const a=Z.cur.ans,f=document.getElementById('zf');if(!Z.wait)recZ(false);Z.wait=true;
+f.className='fb wrong';f.innerHTML=`Đáp án: <b class="jp">${a[0]}</b> (${toRo(a[0])})${a.length>1?'<br>Cũng đúng: <span class="jp">'+a.slice(1).join(' / ')+'</span>':''}<br><small>Nhấn Enter để tiếp tục</small>`}
+function subZ(){if(Z.wait){nextZ();return}const v=document.getElementById('za').value;if(!v.trim())return;
+if(Z.cur.ans.some(a=>same(v,a))){recZ(true);const f=document.getElementById('zf');f.className='fb good';f.textContent='Đúng!';setTimeout(nextZ,500)}else revZ()}
+
 /* ---------- TRANG ĐẦU ---------- */
 const VB={h:'0 0 200 110',w:'0 0 200 120',o:'0 0 160 160'},ID={h:'w1',w:'w2',o:'w3'};
 // loại, trái%, trên%, cỡ(vw), dx, dy, xoay đầu, xoay cuối, giây, trễ, trước chữ?
