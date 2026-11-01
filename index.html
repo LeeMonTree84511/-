@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiếng Nhật N5 – Ôn thi</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#eaf2ff;--mute:#9db4d8;--ok:#6ee7b7;--bad:#fda4af}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.6 'Be Vietnam Pro','Zen Maru Gothic',sans-serif;
+background:radial-gradient(60% 40% at 20% 85%,#0b5bb0 0,transparent 70%),radial-gradient(50% 40% at 85% 20%,#10316e 0,transparent 70%),linear-gradient(180deg,#02060f,#061a47 60%,#0a3a85) fixed}
+#app{max-width:980px;margin:0 auto;padding:28px 18px 60px}
+.jp{font-family:'Zen Maru Gothic','Be Vietnam Pro',sans-serif}
+h1{font-size:2.6rem;margin:.4em 0 0}h2{margin:.2em 0 .6em}
+.sub{color:var(--mute);margin:0 0 28px}
+.glass,button{background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.04));backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%);
+border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(255,255,255,.07),0 10px 30px rgba(0,0,0,.35);border-radius:20px;color:var(--ink)}
+button{font:inherit;padding:10px 20px;cursor:pointer;border-radius:999px;transition:background .2s,transform .1s}
+button:hover{background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.08))}
+button:active{transform:scale(.97)}button:focus-visible,input:focus-visible{outline:2px solid #7cc4ff;outline-offset:2px}
+button.on{background:linear-gradient(135deg,rgba(124,196,255,.45),rgba(124,196,255,.12))}
+.grid{display:grid;gap:18px}
+.big{padding:34px 24px;font-size:1.3rem;border-radius:26px;text-align:left}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.panel{padding:20px;margin:16px 0}
+.kt{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:520px}
+.kt div{padding:8px 0;text-align:center;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.kt b{display:block;font-size:1.6rem;font-weight:700}.kt small{color:var(--mute)}
+.kt .e{visibility:hidden}
+.stage{text-align:center;padding:40px 20px}
+.q{font-size:8rem;line-height:1.1;margin:10px 0 24px}
+input{font:inherit;font-size:1.5rem;text-align:center;width:min(320px,90%);padding:12px;border-radius:16px;color:var(--ink);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.28)}
+.fb{min-height:2em;margin-top:14px;font-size:1.1rem}.good{color:var(--ok)}.wrong{color:var(--bad)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.card{padding:18px}.card .w{font-size:1.8rem;font-weight:700}.card .m{color:var(--mute);margin-bottom:8px}
+.card p{margin:6px 0;padding-left:12px;border-left:2px solid rgba(124,196,255,.5)}.card p small{display:block;color:var(--mute)}
+.say{padding:2px 10px;margin-left:8px;font-size:.9rem}
+.txt{font-size:1.7rem;line-height:2.4;padding:28px}rt{font-size:.5em;color:var(--mute)}
+.clock{font-size:4rem;font-weight:700;font-variant-numeric:tabular-nums;text-align:center;margin:8px 0}
+@media(max-width:560px){.q{font-size:5.5rem}h1{font-size:2rem}.txt{font-size:1.3rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+body{overflow-x:hidden}
+#app.wide{max-width:none;padding:0}
+.hero{position:relative;width:100%;min-height:100vh;overflow:hidden;padding:28px clamp(18px,5vw,64px) 48px;display:flex;flex-direction:column}
+.nav{position:relative;z-index:4;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:1.6rem}.logo i{display:inline-block;width:.32em;height:.32em;border-radius:50%;background:#ef3b4a;margin-left:3px}
+.links{display:flex;gap:4px;padding:5px;border-radius:999px;flex-wrap:wrap}
+.links button{background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:8px 16px}
+.links button:hover{background:rgba(255,255,255,.18)}
+.tag{position:relative;z-index:2;display:flex;justify-content:space-between;gap:20px;margin-top:34px;font-size:.95rem;color:var(--mute)}
+.mid{position:relative;z-index:2;margin:auto 0;padding-top:4vh}
+.ttl{font-size:clamp(3rem,12.5vw,12rem);line-height:1;letter-spacing:-.035em;font-weight:800;margin:0}
+.sj{font-size:clamp(1.1rem,2.6vw,2rem);margin:18px 0 28px}
+.cta{font-size:1.2rem;padding:16px 36px}
+.st{position:absolute;z-index:1;width:var(--s);height:auto;pointer-events:none;filter:drop-shadow(0 14px 18px rgba(0,0,0,.45));animation:fl var(--d) ease-in-out var(--dl) infinite alternate}
+.st.f{z-index:3}
+@keyframes fl{from{transform:translate(0,0) rotate(var(--r0))}to{transform:translate(var(--dx),var(--dy)) rotate(var(--r1))}}
+@media(prefers-reduced-motion:reduce){.st{animation:none}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const app=document.getElementById('app');
+const back='<button onclick="home()">← Menu</button>';
+let T={id:0};
+function show(h,wide){clearInterval(T.id);app.className=wide?'wide':'';app.innerHTML=h;scrollTo(0,0)}
+function say(t){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ja-JP';u.rate=.85;speechSynthesis.speak(u)}
+const rb=s=>s.replace(/([\u4e00-\u9fff]+)\{([^}]+)\}/g,'<ruby>$1<rt>$2</rt></ruby>');
+
+function home(){show(`<div class="row"><button onclick="landing()">← Trang đầu</button></div><h1 class="jp">日本語 N5</h1><p class="sub">Ôn thi theo đúng tài liệu bài 1 – 3</p>
+<div class="grid">
+<button class="glass big" onclick="kana()">Bảng chữ cái</button>
+<button class="glass big" onclick="vocab()">Từ vựng</button>
+<button class="glass big" onclick="speak()">Luyện nói với đoạn văn</button></div>`)}
+
+/* ---------- 1. CHỮ CÁI ---------- */
+const R=[["あいうえお","a i u e o"],["かきくけこ","ka ki ku ke ko"],["さしすせそ","sa shi su se so"],["たちつてと","ta chi tsu te to"],["なにぬねの","na ni nu ne no"],["はひふへほ","ha hi fu he ho"],["まみむめも","ma mi mu me mo"],["や　ゆ　よ","ya - yu - yo"],["らりるれろ","ra ri ru re ro"],["わ　　　を","wa - - - wo"],["ん　　　　","n - - - -"],["がぎぐげご","ga gi gu ge go"],["ざじずぜぞ","za ji zu ze zo"],["だぢづでど","da ji zu de do"],["ばびぶべぼ","ba bi bu be bo"],["ぱぴぷぺぽ","pa pi pu pe po"]];
+const K=s=>[...s].map(c=>c>='ぁ'&&c<='ゖ'?String.fromCharCode(c.charCodeAt(0)+96):c).join('');
+const ALT={shi:['si'],chi:['ti'],tsu:['tu'],fu:['hu'],ji:['zi','di'],zu:['du'],wo:['o'],n:['nn']};
+const POOL=[];R.forEach(([k,r])=>{const rr=r.split(' ');[...k].forEach((c,i)=>{if(c!=='　')POOL.push({h:c,k:K(c),r:rr[i]})})});
+function table(conv){return '<div class="kt jp">'+R.map(([k,r])=>{const rr=r.split(' ');return [...k].map((c,i)=>c==='　'?'<div class="e">.</div>':`<div><b>${conv(c)}</b><small>${rr[i]}</small></div>`).join('')}).join('')+'</div>'}
+function kana(){show(`${back}<h2>Bảng chữ cái</h2>
+<div class="glass panel"><h3>Hiragana (ひらがな)</h3>${table(c=>c)}</div>
+<div class="glass panel"><h3>Katakana (カタカナ)</h3>${table(K)}</div>
+<div class="row"><button class="on" onclick="quiz()">Ghi nhớ chữ cái</button></div>`)}
+let Q={set:'both',mode:0,cur:null,ok:0,n:0,wait:false};
+function quiz(){Q.ok=Q.n=0;drawQ();nextQ()}
+function drawQ(){show(`<div class="row"><button onclick="kana()">← Bảng chữ cái</button>
+<button class="${Q.set=='h'?'on':''}" onclick="Q.set='h';drawQ();nextQ()">Hiragana</button>
+<button class="${Q.set=='k'?'on':''}" onclick="Q.set='k';drawQ();nextQ()">Katakana</button>
+<button class="${Q.set=='both'?'on':''}" onclick="Q.set='both';drawQ();nextQ()">Cả hai</button>
+<button class="${Q.mode?'on':''}" onclick="Q.mode=1-Q.mode;drawQ();nextQ()">${Q.mode?'Đề: romaji → gõ kana':'Đề: kana → gõ romaji'}</button></div>
+<div class="glass stage"><div class="q jp" id="qc"></div>
+<input id="qa" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${Q.mode?'Gõ chữ kana (bật bộ gõ tiếng Nhật)':'Gõ romaji, ví dụ: ka'}">
+<div class="fb" id="fb"></div><p class="sub" id="sc"></p></div>`);
+document.getElementById('qa').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing)submitQ()})}
+function nextQ(){const a=POOL.flatMap(p=>Q.set=='h'?[{...p,t:'h'}]:Q.set=='k'?[{...p,t:'k'}]:[{...p,t:'h'},{...p,t:'k'}]);
+Q.cur=a[Math.random()*a.length|0];Q.wait=false;const c=Q.cur;
+document.getElementById('qc').innerHTML=Q.mode?c.r+(Q.set=='both'?`<br><small style="font-size:1.2rem">${c.t=='h'?'Hiragana':'Katakana'}</small>`:''):c[c.t];
+const i=document.getElementById('qa');i.value='';i.focus();document.getElementById('fb').textContent='';
+document.getElementById('sc').textContent=`Đúng ${Q.ok}/${Q.n}`}
+function submitQ(){const i=document.getElementById('qa'),fb=document.getElementById('fb'),c=Q.cur;
+if(Q.wait){nextQ();return}
+const v=i.value.trim().toLowerCase();if(!v)return;
+const good=Q.mode?v===c[c.t]:(v===c.r||(ALT[c.r]||[]).includes(v));
+Q.n++;
+if(good){Q.ok++;fb.className='fb good';fb.textContent='Đúng!';document.getElementById('sc').textContent=`Đúng ${Q.ok}/${Q.n}`;setTimeout(nextQ,450)}
+else{fb.className='fb wrong';fb.innerHTML=`Chưa đúng. Đáp án: <b class="jp">${Q.mode?c[c.t]:c.r}</b> — nhấn Enter để tiếp tục`;Q.wait=true;document.getElementById('sc').textContent=`Đúng ${Q.ok}/${Q.n}`}}
+
+/* ---------- 2. TỪ VỰNG (chỉ từ trong tài liệu) ---------- */
+// "từ|nghĩa|động từ:nghĩa động từ|kiểu câu"
+const mo=["いち","に","さん","し","ご","ろく","しち","はち","く","じゅう","じゅういち","じゅうに"].map((x,i)=>`${x}がつ|tháng ${i+1}`);
+const D={
+1:[["Chào hỏi & hội thoại","z",["はじめまして|rất vui được gặp (lần đầu)|はじめまして。わたしは ワンです。~Rất vui được gặp. Tôi là Wan.","よろしくおねがいします|rất mong được giúp đỡ|ちゅうごくじんです。よろしく おねがいします。~Tôi là người Trung Quốc. Rất mong được giúp đỡ.","おなまえ|tên (của bạn)|おなまえは？~Tên bạn là gì?","おしごと|nghề nghiệp (của bạn)|おしごとは？ ― わたしは がくせいです。~Nghề của bạn là gì? Tôi là học sinh.","そうですか|vậy à|A：しゅみは すいえいです。 B：そうですか。~A: Sở thích của tôi là bơi lội. B: Vậy à.","はい|vâng|かいしゃいんですか。 ― はい、かいしゃいんです。~Bạn là nhân viên công ty à? Vâng, đúng vậy.","いいえ|không|がくせいですか。 ― いいえ、がくせいじゃ ありません。~Bạn là học sinh à? Không, không phải."]],
+["Người & cách gọi","z",["わたし|tôi|わたしは パクです。~Tôi là Park.","～さん|anh/chị (gắn sau tên)|ワンさんは がくせいです。~Anh Wan là học sinh.","～じん|người (nước...)|わたしは ちゅうごくじんです。~Tôi là người Trung Quốc."]],
+["Quốc gia","k3",["ベトナム|Việt Nam|j","にほん|Nhật Bản|j","アメリカ|Mỹ|j","イタリア|Ý|j","オーストラリア|Úc","かんこく|Hàn Quốc|j","タイ|Thái Lan|j","ちゅうごく|Trung Quốc|j","ロシア|Nga|j","ブラジル|Brazil"]],
+["Nghề nghiệp","i",["がくせい|học sinh, sinh viên","せんせい|giáo viên","きょうし|giáo viên","かいしゃいん|nhân viên công ty","しゃいん|nhân viên (của công ty)","ぎんこういん|nhân viên ngân hàng","いしゃ|bác sĩ"]],
+["Trường học","u",["こうこう|trường cấp ba","だいがく|đại học","にほんごがっこう|trường tiếng Nhật"]],
+["Sở thích","h",["サッカー|bóng đá","テニス|quần vợt","すいえい|bơi lội","えいが|phim ảnh","おんがく|âm nhạc","りょこう|du lịch","どくしょ|đọc sách","りょうり|nấu ăn","スポーツ|thể thao"]],
+["Từ để hỏi","q",["おくに|đất nước (của bạn)||q","たんじょうび|sinh nhật||p","しゅみ|sở thích||n","いつ|khi nào|たんじょうびは いつですか。~Sinh nhật bạn là khi nào?|z","どちら|ở đâu, nước nào|おくには どちらですか。~Nước bạn là nước nào?|z","なん|cái gì|しゅみは なんですか。~Sở thích của bạn là gì?|z"]],
+["Tuổi","ag",["いっさい|1 tuổi","はっさい|8 tuổi","じゅっさい|10 tuổi","じゅうにさい|12 tuổi","じゅうごさい|15 tuổi","じゅうはっさい|18 tuổi","はたち|20 tuổi","にじゅういっさい|21 tuổi","にじゅうろくさい|26 tuổi","にじゅうきゅうさい|29 tuổi","さんじゅっさい|30 tuổi"]],
+["Tháng","m",mo],
+["Ngày trong tháng","dy",["ついたち|ngày 1","ふつか|ngày 2","みっか|ngày 3","よっか|ngày 4","いつか|ngày 5","むいか|ngày 6","なのか|ngày 7","ようか|ngày 8","ここのか|ngày 9","とおか|ngày 10","じゅうよっか|ngày 14","はつか|ngày 20","にじゅうよっか|ngày 24"]]],
+2:[["Địa điểm & cửa hàng","b",["インフォメーション|quầy thông tin","ATM|cây ATM","エスカレーター|thang cuốn","エレベーター|thang máy","トイレ|nhà vệ sinh","レジ|quầy thu ngân","スーパー|siêu thị","100えんショップ|cửa hàng đồng giá 100 yên","レストラン|nhà hàng","きっさてん|quán cà phê","きつえんじょ|nơi hút thuốc","ちか|dưới mặt đất","てんいん|nhân viên cửa hàng","くつや|cửa hàng giày","ケーキや|tiệm bánh ngọt","パンや|tiệm bánh mì"]],
+["Đồ dùng & quần áo","a",["カメラ|máy ảnh","けいたいでんわ|điện thoại di động","じしょ|từ điển","でんしじしょ|từ điển điện tử","パソコン|máy tính","くつ|giày dép","けしゴム|cục tẩy","ペン|bút mực","トイレットペーパー|giấy vệ sinh","ほん|sách","かばん|túi xách","ズボン|quần dài","Tシャツ|áo thun","とけい|đồng hồ","さいふ|ví"]],
+["Thực phẩm","a",["ケーキ|bánh ngọt","こめ|gạo","たまご|trứng","パン|bánh mì","あぶら|dầu ăn","イチゴ|dâu tây","リンゴ|táo","バナナ|chuối","えび|tôm","さかな|cá","ぶたにく|thịt heo","とりにく|thịt gà","ぎゅうにく|thịt bò","やさい|rau củ"]],
+["Món ăn","a",["りょうり|món ăn","カレー|cà ri","スープ|súp","おやこどん|cơm gà trứng","とんかつ|thịt heo chiên xù","ハンバーグ|thịt hamburg","ごはん|cơm","ライス|cơm (kiểu Tây)"]],
+["Đồ uống","a",["おちゃ|trà","ワイン|rượu vang","コーヒー|cà phê","ジュース|nước ép","みず|nước","こうちゃ|hồng trà","ビール|bia"]],
+["Quốc gia & ngôn ngữ","k2",["インド|Ấn Độ","ドイツ|Đức","フランス|Pháp","えいご|tiếng Anh||l"]]],
+3:[["Thời gian","t",["ごぜん|buổi sáng (AM)","ごご|buổi chiều (PM)","あさ|buổi sáng","ひる|buổi trưa","よる|buổi tối","ばん|buổi tối","まいにち|mỗi ngày","いちねん|một năm","きょう|hôm nay","あした|ngày mai","あさって|ngày kia","こんしゅう|tuần này","らいしゅう|tuần sau","こんげつ|tháng này","らいげつ|tháng sau","ことし|năm nay","らいねん|năm sau"]],
+["Thứ trong tuần","d",["にちようび|Chủ nhật","げつようび|thứ hai","かようび|thứ ba","すいようび|thứ tư","もくようび|thứ năm","きんようび|thứ sáu","どようび|thứ bảy"]],
+["Mùa & kỳ nghỉ","s",["はる|mùa xuân","なつ|mùa hè","あき|mùa thu","ふゆ|mùa đông","やすみ|ngày nghỉ","なつやすみ|kỳ nghỉ hè","ゴールデンウイーク|Tuần lễ vàng"]],
+["Địa điểm","c",["ぎんこう|ngân hàng","たいいくかん|nhà thi đấu","としょかん|thư viện","びょういん|bệnh viện","ゆうびんきょく|bưu điện","きょうしつ|lớp học","うち|nhà","コンビニ|cửa hàng tiện lợi","かいしゃ|công ty","がっこう|trường học","うみ|biển","こうえん|công viên"]],
+["Hoạt động & sự kiện","o",["じゅぎょう|buổi học|します:làm","テスト|bài kiểm tra|します:làm","アルバイト|việc làm thêm|します:làm","スキー|trượt tuyết|します:làm","パーティー|bữa tiệc|します:làm","バーベキュー|tiệc nướng|します:làm","はなび|pháo hoa|します:làm","おはなみ|ngắm hoa anh đào|します:làm","ホームステイ|homestay|します:làm","おまつり|lễ hội|します:làm"]],
+["Ăn uống","o",["おさけ|rượu|のみます:uống","おすし|sushi|たべます:ăn","おべんとう|cơm hộp|たべます:ăn","あさごはん|bữa sáng|たべます:ăn","ひるごはん|bữa trưa|たべます:ăn","ばんごはん|bữa tối|たべます:ăn","ぎゅうにゅう|sữa bò|のみます:uống","くだもの|trái cây|たべます:ăn","サラダ|salad|たべます:ăn","チーズ|phô mai|たべます:ăn"]],
+["Xem, đọc, nghe & khác","o",["テレビ|ti vi|みます:xem","DVD|đĩa DVD|みます:xem","CD|đĩa CD|ききます:nghe","インターネット|internet|みます:xem","しんぶん|báo|よみます:đọc","さくら|hoa anh đào|みます:ngắm","バス|xe buýt||g","りゅうがくせい|du học sinh||i"]],
+["Động từ","v",["いきます|đi","きます|đến","かえります|về","たべます|ăn","のみます|uống","みます|xem","おきます|thức dậy","ねます|ngủ","ききます|nghe","かいます|mua","よみます|đọc","べんきょうします|học","はたらきます|làm việc"]]]};
+function sents(t,w,m,v){const[vj,vm]=(v||':').split(':'),neg=s=>s.replace(/ます$/,'ません');
+const S={a:[[`これは ${w}です。`,`Đây là ${m}.`],[`この ${w}は いくらですか。`,`${m} này giá bao nhiêu?`]],
+b:[[`${w}は どこですか。`,`${m} ở đâu vậy?`],[`${w}は あそこです。`,`${m} ở đằng kia.`]],
+c:[[`あした、${w}へ いきます。`,`Ngày mai tôi đi đến ${m}.`],[`${w}で べんきょうします。`,`Tôi học ở ${m}.`]],
+o:[[`${w}を ${vj}。`,`Tôi ${vm} ${m}.`],[`${w}を ${neg(vj)}。`,`Tôi không ${vm} ${m}.`]],
+v:[[`あした、${w}。`,`Ngày mai: ${m}.`],[`きょうは ${neg(w)}。`,`Hôm nay không: ${m}.`]],
+t:[[`${w}、べんきょうします。`,`${m}, tôi học bài.`]],
+d:[[`${w}に アルバイトを します。`,`Vào ${m}, tôi làm thêm.`]],
+s:[[`${w}、こうえんへ いきます。`,`${m}, tôi đi công viên.`]],
+i:[[`わたしは ${w}です。`,`Tôi là ${m}.`],[`わたしは ${w}じゃ ありません。`,`Tôi không phải là ${m}.`]],
+h:[[`わたしの しゅみは ${w}です。`,`Sở thích của tôi là ${m}.`],[`しゅみは なんですか。 ― ${w}です。`,`Sở thích của bạn là gì? Là ${m}.`]],
+z:[(v||'~').split('~')],
+k3:[[`おくには どちらですか。 ― ${w}です。`,`Nước bạn là nước nào? Là ${m}.`],...(v==='j'?[[`わたしは ${w}じんです。`,`Tôi là người ${m}.`]]:[])],
+u:[[`わたしは ${w}の がくせいです。`,`Tôi là học sinh của ${m}.`]],
+ag:[[`わたしは ${w}です。`,`Tôi ${m}.`]],
+q:[[`${w}は どちらですか。`,`${m} ở đâu vậy?`]],
+p:[[`${w}は いつですか。`,`${m} là khi nào?`],[`わたしの ${w}は ごがつ とおかです。`,`${m} của tôi là ngày 10 tháng 5.`]],
+n:[[`${w}は なんですか。`,`${m} của bạn là gì?`]],
+k:[[`わたしの おくには ${w}です。`,`Đất nước của tôi là ${m}.`]],
+k2:[[`これは ${w}の ビールです。`,`Đây là bia của ${m}.`]],
+l:[[`「ぶたにく」は ${w}で なんですか。`,`"Butaniku" trong ${m} là gì?`]],
+g:[[`${w}で がっこうへ いきます。`,`Tôi đến trường bằng ${m}.`]],
+m:[[`わたしの たんじょうびは ${w}です。`,`Sinh nhật tôi vào ${m}.`]],
+dy:[[`ごがつ ${w}です。`,`Là ${m} tháng 5.`]]};
+return S[t]||[]}
+let V={n:1,i:0};
+function vocab(){show(`${back}<h2>Từ vựng</h2><div class="grid">${[1,2,3].map(n=>`<button class="glass big" onclick="V={n:${n},i:0};lesson()">Từ vựng bài ${n}</button>`).join('')}</div>
+`)}
+function lesson(){const g=D[V.n];
+show(`<div class="row"><button onclick="vocab()">← Các bài</button></div><h2>Bài ${V.n}</h2>
+<div class="row">${g.map((x,i)=>`<button class="${i==V.i?'on':''}" onclick="V.i=${i};lesson()">${x[0]}</button>`).join('')}</div>
+<div class="cards">${g[V.i][2].map(e=>{const[w,m,v,ty]=e.split('|');return `<div class="glass card"><div class="w jp">${w}<button class="say" data-t="${w}" onclick="say(this.dataset.t)">🔊</button></div><div class="m">${m}</div>
+${sents(ty||g[V.i][1],w,m,v).map(([j,vi])=>`<p class="jp">${j}<small>${vi}</small></p>`).join('')}</div>`}).join('')}</div>`)}
+
+/* ---------- 3. NÓI ---------- */
+const P=["私{わたし}は 学生{がくせい}です。しゅみは えいがと りょこうです。まいにち、八時{はちじ}から 十時{じゅうじ}まで べんきょうします。",
+"きょうは 月曜日{げつようび}です。九時{くじ}に がっこうへ いきます。十二時{じゅうにじ}に ひるごはんを たべます。ごご、としょかんで ほんを よみます。",
+"日曜日{にちようび}、どこへも いきません。うちで テレビを みます。よる、十一時{じゅういちじ}に ねます。",
+"スーパーで パンと たまごと みずを かいます。この とけいは 三千円{さんぜんえん}です。あの ケーキは 五百円{ごひゃくえん}です。",
+"私{わたし}の たんじょうびは 四月{しがつ}十日{とおか}です。うちで パーティーを します。ケーキや サラダなどを たべます。",
+"水曜日{すいようび}から 金曜日{きんようび}まで コンビニで アルバイトを します。土曜日{どようび}、うみへ いきます。バスで いきます。"];
+let S={i:-1,limit:0,run:false,t0:0};
+function speak(){let k;do{k=Math.random()*P.length|0}while(k===S.i&&P.length>1);S.i=k;S.limit=0;S.run=false;
+show(`${back}<h2>Luyện nói với đoạn văn</h2>
+<div class="glass txt jp">${rb(P[k])}</div>
+<div class="row"><button onclick="say(P[S.i].replace(/\\{[^}]+\\}/g,''))">🔊 Nghe mẫu</button><button onclick="speak()">Đoạn khác</button></div>
+<div class="glass panel"><h3>Bấm giờ</h3>
+<div class="row">${[[300,'5 phút'],[600,'10 phút'],[1200,'20 phút'],[0,'Tự do']].map(([s,l])=>`<button data-s="${s}" class="lim ${s==0?'on':''}" onclick="setLim(${s})">${l}</button>`).join('')}</div>
+<div class="clock" id="clk">00:00</div>
+<div class="row" style="justify-content:center"><button id="go" class="on" onclick="toggle()">Bắt đầu</button></div>
+<div class="fb" id="res" style="text-align:center"></div></div>`)}
+const mmss=s=>{s=Math.max(0,Math.round(s));return String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function setLim(s){if(S.run)return;S.limit=s;document.querySelectorAll('.lim').forEach(b=>b.classList.toggle('on',+b.dataset.s===s));document.getElementById('clk').textContent=mmss(s);document.getElementById('res').textContent=''}
+function toggle(){const go=document.getElementById('go'),clk=document.getElementById('clk'),res=document.getElementById('res');
+if(!S.run){S.run=true;S.t0=Date.now();go.textContent='Dừng';res.textContent='';
+T.id=setInterval(()=>{const e=(Date.now()-S.t0)/1000;if(S.limit&&e>=S.limit){stop(true)}else clk.textContent=mmss(S.limit?S.limit-e:e)},200)}
+else stop(false)}
+function stop(timeout){clearInterval(T.id);const e=(Date.now()-S.t0)/1000;S.run=false;
+document.getElementById('go').textContent='Bắt đầu';document.getElementById('clk').textContent=mmss(S.limit?S.limit-Math.min(e,S.limit):e);
+const r=document.getElementById('res');r.className='fb good';r.textContent=(timeout?'Hết giờ! ':'')+'Thời gian đọc: '+mmss(Math.min(e,S.limit||e))}
+/* ---------- TRANG ĐẦU ---------- */
+const VB={h:'0 0 200 110',w:'0 0 200 120',o:'0 0 160 160'},ID={h:'w1',w:'w2',o:'w3'};
+// loại, trái%, trên%, cỡ(vw), dx, dy, xoay đầu, xoay cuối, giây, trễ, trước chữ?
+const ST=[['h',3,14,13,40,30,-20,-5,9,0,0],['w',70,6,11,-30,40,15,35,11,-2,0],['o',82,28,10,25,-35,0,25,13,-4,0],['h',58,50,15,-45,-20,160,185,10,-1,1],['w',6,58,12,35,-40,-10,20,12,-3,1],['o',38,3,8,20,30,-15,10,8,-5,0],['h',86,64,11,-25,25,200,170,9,-6,0],['w',44,76,10,30,-30,40,10,14,-7,1],['o',20,36,7,-20,20,0,-30,10,-2,0],['w',92,4,7,-15,30,-20,10,12,-8,1]];
+const seeds=[[60,34],[95,48],[130,34],[78,64],[112,66],[45,52],[148,52]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="3" ry="6" transform="rotate(-20 ${x} ${y})"/>`).join('');
+const DEFS=`<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="w1" viewBox="0 0 200 110"><path d="M2 4h196a98 98 0 0 1-196 0z" fill="#1e8a3c"/><path d="M12 4h176a88 88 0 0 1-176 0z" fill="#eaf5d8"/><path d="M18 4h164a82 82 0 0 1-164 0z" fill="#ef3b4a"/><path d="M30 14a70 70 0 0 0 40 50" stroke="#fff" stroke-opacity=".35" stroke-width="5" fill="none" stroke-linecap="round"/><g fill="#1a1215">${seeds}</g></symbol>
+<symbol id="w2" viewBox="0 0 200 120"><path d="M100 6 20 96a120 120 0 0 0 160 0z" fill="#1e8a3c"/><path d="M100 22 36 92a104 104 0 0 0 128 0z" fill="#eaf5d8"/><path d="M100 34 50 90a92 92 0 0 0 100 0z" fill="#ef3b4a"/><g fill="#1a1215"><ellipse cx="100" cy="62" rx="3" ry="6"/><ellipse cx="82" cy="76" rx="3" ry="6" transform="rotate(30 82 76)"/><ellipse cx="118" cy="76" rx="3" ry="6" transform="rotate(-30 118 76)"/><ellipse cx="100" cy="84" rx="3" ry="6"/></g></symbol>
+<symbol id="w3" viewBox="0 0 160 160"><circle cx="80" cy="80" r="76" fill="#2aa04a"/><g fill="none" stroke="#0f5e2a" stroke-width="9" stroke-linecap="round" opacity=".65"><path d="M80 5C60 40 100 60 80 80S100 120 80 155"/><path d="M45 14C28 45 62 65 45 90S60 130 50 146"/><path d="M115 14C132 45 98 65 115 90S100 130 110 146"/></g><ellipse cx="52" cy="42" rx="18" ry="10" fill="#fff" opacity=".25" transform="rotate(-35 52 42)"/></symbol></defs></svg>`;
+function landing(){
+const stk=f=>ST.filter(a=>a[10]==f).map(([t,l,tp,sz,dx,dy,r0,r1,d,dl])=>`<svg class="st ${f?'f':''}" viewBox="${VB[t]}" style="left:${l}%;top:${tp}%;--s:${sz}vw;--dx:${dx}px;--dy:${dy}px;--r0:${r0}deg;--r1:${r1}deg;--d:${d}s;--dl:${dl}s"><use href="#${ID[t]}" width="100%" height="100%"/></svg>`).join('');
+show(`${DEFS}<section class="hero">${stk(0)}${stk(1)}
+<nav class="nav"><div class="logo">MITA<i></i></div>
+<div class="links glass"><button onclick="kana()">Bảng chữ cái</button><button onclick="vocab()">Từ vựng</button><button onclick="speak()">Luyện nói</button></div></nav>
+<div class="tag"><span>Ôn thi tiếng Nhật N5, bài 1 đến 3.</span><span style="text-align:right">Học chậm mà chắc.</span></div>
+<div class="mid"><h1 class="ttl">HỌC TIẾNG<br>NHẬT CÙNG<br>MITA</h1>
+<p class="sj jp">ミタと<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>学<rt>まな</rt></ruby>ぼう</p>
+<button class="glass cta" onclick="home()">Bắt đầu học</button></div></section>`,true)}
+landing();
+</script>
+</body>
+</html>
